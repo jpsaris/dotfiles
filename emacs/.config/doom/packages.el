@@ -9,7 +9,7 @@
 ;;
 ;; Use 'C-h f package\!' to look up documentation for the `package!' macro.
 
-(package! golden-ratio-scroll-screen)
+;; (package! golden-ratio-scroll-screen)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;; (package! some-package)

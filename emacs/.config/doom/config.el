@@ -2,8 +2,8 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 
-(global-set-key (kbd "C-v") 'golden-ratio-scroll-screen-up)
-(global-set-key (kbd "M-v") 'golden-ratio-scroll-screen-down)
+;;(global-set-key (kbd "C-v") 'golden-ratio-scroll-screen-up)
+;;(global-set-key (kbd "M-v") 'golden-ratio-scroll-screen-down)
 
 ;; sync' after modifying this file!
 (defun jp/untabify-whole-buffer ()
@@ -11,16 +11,15 @@
   (untabify (point-min) (point-max)))
 
 ;; Switch CMD and OPT for MacOS
-(setq mac-option-modifier 'super)
+;; Disable super on OPT for use with Aerospace
+(setq mac-option-modifier 'none)
 (setq mac-command-modifier 'meta)
 
-;; Prevents SPC __ from activating unintended doom commands
-(setq doom-leader-key "C-c"
-      doom-localleader-key "C-c l")
 ;; Start MacOS application maximized to display
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 ;; Add a completion timestamp when done with todos
 (setq org-log-done 'time)
+
 (setq c-basic-offset 2)
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
