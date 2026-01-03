@@ -20,7 +20,38 @@
 ;; Add a completion timestamp when done with todos
 (setq org-log-done 'time)
 
-(setq c-basic-offset 2)
+;; Set Treemacs to M-0
+(map! "M-0" #'treemacs-select-window)
+;; Set treemacs to left side
+(setq treemacs-position 'right)
+
+;; C/C++ stuff
+;; Add a cc-mode style for editing LLVM C and C++ code
+(c-add-style "llvm.org"
+             '("gnu"
+	       (fill-column . 80)
+	       (c++-indent-level . 4)
+	       (c-basic-offset . 4)
+	       (indent-tabs-mode . nil)
+	       (c-offsets-alist . ((arglist-intro . +)
+				   (innamespace . 0)
+				   (member-init-intro . +)
+				   (statement-cont . llvm-lineup-statement)))))
+(setq c-default-style "llvm.org")
+(after! cc-mode
+  ;; Don't use treesitter versions.
+  (add-to-list 'major-mode-remap-alist '(c-mode . nil))
+  (add-to-list 'major-mode-remap-alist '(c++-mode . nil))
+  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . nil)))
+;; Use cpp-mode for .cu files instead of cuda-mode
+(set-file-template! "\\.cu\\'" :mode 'cpp-mode)
+;; Override existing mode association
+(add-to-list 'auto-mode-alist '("\\.cu\\'" . cpp-mode))
+
+;; C-> and C-< for multiple cursors
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
@@ -41,7 +72,8 @@
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
+(setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 18 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "SauceCodePro Nerd Font" :size 18))
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -50,7 +82,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox-light)
+(setq doom-theme 'doom-gruvbox)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
