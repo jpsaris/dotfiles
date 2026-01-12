@@ -8,7 +8,7 @@
 ;;   3. Restart Emacs.
 ;;
 ;; Use 'C-h f package\!' to look up documentation for the `package!' macro.
-(package! clang-format)
+;; (package! clang-format)
 (package! fzf)
 ;; (package! golden-ratio-scroll-screen)
 

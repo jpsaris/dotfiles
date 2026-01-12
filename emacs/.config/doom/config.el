@@ -26,23 +26,35 @@
 (setq treemacs-position 'right)
 
 ;; C/C++ stuff
+(defun llvm-lineup-statement (langelem)
+  (let ((in-assign (c-lineup-assignments langelem)))
+    (if (not in-assign)
+        '++
+      (aset in-assign 0
+            (+ (aref in-assign 0)
+               (* 2 c-basic-offset)))
+      in-assign)))
+
 ;; Add a cc-mode style for editing LLVM C and C++ code
 (c-add-style "llvm.org"
              '("gnu"
 	       (fill-column . 80)
-	       (c++-indent-level . 4)
-	       (c-basic-offset . 4)
+	       (c++-indent-level . 2)
+	       (c-basic-offset . 2)
 	       (indent-tabs-mode . nil)
-	       (c-offsets-alist . ((arglist-intro . +)
+	       (c-offsets-alist . ((arglist-intro . ++)
 				   (innamespace . 0)
-				   (member-init-intro . +)
+				   (member-init-intro . ++)
 				   (statement-cont . llvm-lineup-statement)))))
 (setq c-default-style "llvm.org")
 (after! cc-mode
   ;; Don't use treesitter versions.
   (add-to-list 'major-mode-remap-alist '(c-mode . nil))
   (add-to-list 'major-mode-remap-alist '(c++-mode . nil))
-  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . nil)))
+  (add-to-list 'major-mode-remap-alist '(c-or-c++-mode . nil))
+  ;; Only newline, don't indent
+  (define-key c-mode-map (kbd "RET") #'newline))
+
 ;; Use cpp-mode for .cu files instead of cuda-mode
 (set-file-template! "\\.cu\\'" :mode 'cpp-mode)
 ;; Override existing mode association
@@ -72,8 +84,8 @@
 ;;
 ;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
 ;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-(setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 18 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "SauceCodePro Nerd Font" :size 18))
+;;(setq doom-font (font-spec :family "SauceCodePro Nerd Font" :size 18 :weight 'regular)
+;;      doom-variable-pitch-font (font-spec :family "SauceCodePro Nerd Font" :size 18))
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
